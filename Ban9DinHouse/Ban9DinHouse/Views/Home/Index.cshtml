@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "บ้านนายดิน";
+}
+@model Ban9DinHouse.Models.ShoppingModel
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>@{
+                int count = 0;
+                count = Model.cart != null ? Model.cart.orders.Count : 0;
+            }
+            <label> @Html.ActionLink("Shopping Cart "+@count, "Index", "ShoppingCart")</label> 
+            </p>
+        </div>
+    </section>
+}
+
+@if (Model.products != null)
+{
+    foreach (var item in Model.products)
+    {
+        <form action="~/ShoppingCart/Add" method="post">
+            <label>@item.Name</label>
+            <input type="number" name="qty" value="1" />
+            <input type="hidden" name="sku" value="@item.SKU" />
+            <input type="submit" name="@item.SKU" value="Add" />
+        </form>
+    }
+
+}
+
+

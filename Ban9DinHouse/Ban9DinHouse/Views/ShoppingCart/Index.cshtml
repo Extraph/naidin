@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Shopping Cart";
+}
+@model Ban9DinHouse.Models.ShoppingCart
+<h2>Index</h2>
+@if (Model != null && Model.orders.Count > 0)
+{
+    decimal total = Model.orders.Sum(i => i.products.price) - Model.discount;
+    foreach (var item in Model.orders.OrderBy(i => i.products.SKU))
+    {
+        <form action="~/ShoppingCart/RemoveOrderItem" method="post">
+            <label>@item.products.Name </label>
+            <label> @item.QTY</label>
+            <input type="submit" name="name" value="X" />
+            <input type="hidden" name="sku" value="@item.products.SKU" />
+            <br />
+        </form>
+
+    }
+    <label>Price @Model.orders.Sum(i => i.products.price) Baht</label>
+    if (Model.discount > 0)
+    {
+        <label>Discount @Model.discount Baht</label>
+    }
+    <label>Total Price  @total Baht</label>
+
+}
+else
+{
+    <label>Empty basket</label>
+}
